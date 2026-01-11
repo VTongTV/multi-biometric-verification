@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biometric Ensemble Verification</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #1a73e8; text-align: center; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+        .section { background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #dee2e6; }
+        h2 { margin-top: 0; font-size: 1.2rem; color: #495057; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; }
+        select, input[type="file"] { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ced4da; border-radius: 4px; }
+        button { width: 100%; padding: 12px; background-color: #1a73e8; color: white; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+        button:hover { background-color: #1557b0; }
+        #result { margin-top: 30px; padding: 20px; border-radius: 8px; text-align: center; display: none; }
+        .authorized { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .rejected { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .score { font-size: 2rem; font-weight: bold; margin: 10px 0; }
+        .details { font-size: 0.9rem; color: #666; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Biometric Access Control</h1>
+        
+        <div class="section" style="background: #e3f2fd; border-color: #90caf9;">
+            <h2>⚡ Quick Test Presets</h2>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button onclick="loadPreset('authorized')" style="background-color: #28a745;">✅ Load Authorized (User 01)</button>
+                <button onclick="loadPreset('impostor')" style="background-color: #dc3545;">❌ Load Impostor</button>
+                <button onclick="loadPreset('identify')" style="background-color: #1a73e8;">🔍 Load Random for Identification</button>
+            </div>
+        </div>
+
+        <!-- Mode Toggle -->
+        <div style="display: flex; justify-content: center; margin: 20px 0;">
+            <div style="background: white; padding: 5px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex;">
+                <button id="btnModeVerify" onclick="setMode('verify')" style="width: 150px; background: #e8f0fe; color: #1a73e8; border-radius: 6px;">Verify (1:1)</button>
+                <button id="btnModeIdentify" onclick="setMode('identify')" style="width: 150px; background: transparent; color: #5f6368; border-radius: 6px;">Identify (1:N)</button>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- CLAIM (Only for Verify) -->
+            <div class="section" id="claimSection">
+                <h2>1. Claim Identity</h2>
+                <p>Who do you claim to be?</p>
+                <select id="identitySelect">
+                    {% for id in identities %}
+                    <option value="{{ id }}">{{ id }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- PROBE -->
+            <div class="section">
+                <h2>2. Provide Biometrics</h2>
+                <p>Select which modalities to include:</p>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="chkFace" checked> <strong>Face Image</strong>
+                    </label>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                        <img id="facePreview" style="width: 50px; height: 50px; object-fit: cover; display: none; border-radius: 4px;">
+                        <input type="file" id="faceFile" accept="image/*" onchange="previewImage(this, 'facePreview')">
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="chkFinger" checked> <strong>Fingerprint</strong>
+                    </label>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                        <img id="fingerPreview" style="width: 50px; height: 50px; object-fit: cover; display: none; border-radius: 4px;">
+                        <input type="file" id="fingerFile" accept="image/*" onchange="previewImage(this, 'fingerPreview')">
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="chkNir" checked> <strong>Iris (NIR)</strong>
+                    </label>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                        <img id="nirPreview" style="width: 50px; height: 50px; object-fit: cover; display: none; border-radius: 4px;">
+                        <input type="file" id="irisNirFile" accept="image/*" onchange="previewImage(this, 'nirPreview')">
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="chkVis" checked> <strong>Iris (Visible)</strong>
+                    </label>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                        <img id="visPreview" style="width: 50px; height: 50px; object-fit: cover; display: none; border-radius: 4px;">
+                        <input type="file" id="irisVisFile" accept="image/*" onchange="previewImage(this, 'visPreview')">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <button id="btnAction" onclick="runAction()">Verify Access</button>
+        </div>
+        
+        <div id="result">
+            <h2 id="decisionText"></h2>
+            <div class="score" id="scoreText"></div>
+            <div class="details" id="detailsText"></div>
+        </div>
+    </div>
+
+    <script>
+        // Expose identities from Flash/Jinja to JS
+        const ALL_IDENTITIES = {{ identities | tojson }};
+        let CURRENT_MODE = 'verify';
+
+        function setMode(mode) {
+            CURRENT_MODE = mode;
+            
+            // Toggle Buttons
+            const btnV = document.getElementById('btnModeVerify');
+            const btnI = document.getElementById('btnModeIdentify');
+            
+            if (mode === 'verify') {
+                btnV.style.background = '#e8f0fe'; btnV.style.color = '#1a73e8';
+                btnI.style.background = 'transparent'; btnI.style.color = '#5f6368';
+                document.getElementById('claimSection').style.display = 'block';
+                document.getElementById('btnAction').innerText = "Verify Access";
+                document.getElementById('result').style.display = 'none';
+            } else {
+                btnI.style.background = '#e8f0fe'; btnI.style.color = '#1a73e8';
+                btnV.style.background = 'transparent'; btnV.style.color = '#5f6368';
+                document.getElementById('claimSection').style.display = 'none';
+                document.getElementById('btnAction').innerText = "Identify User";
+                document.getElementById('result').style.display = 'none';
+            }
+        }
+
+        // Preview uploaded images
+        function previewImage(input, imgId) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(imgId);
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function loadPreset(type) {
+            // Clear previous
+            document.querySelectorAll('input[type="file"]').forEach(i => i.value = '');
+            document.querySelectorAll('img[id$="Preview"]').forEach(i => i.style.display = 'none');
+            // Reset checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = true);
+            
+            let sourceId = ALL_IDENTITIES[Math.floor(Math.random() * ALL_IDENTITIES.length)];
+            let claim = sourceId;
+
+            if (type === 'impostor') {
+                const others = ALL_IDENTITIES.filter(id => id !== claim);
+                sourceId = others[Math.floor(Math.random() * others.length)];
+                console.log(`IMPOSTOR TEST: Claiming ${claim}, using biometrics from ${sourceId}`);
+                setMode('verify');
+            } else if (type === 'identify') {
+                console.log(`IDENTIFY TEST: Using biometrics from ${sourceId}`);
+                setMode('identify');
+            } else {
+                console.log(`AUTHORIZED TEST: Claiming ${claim}, using biometrics from ${sourceId}`);
+                setMode('verify');
+            }
+            
+            const sources = {
+                'faceFile': `/static/gallery/${sourceId}/face.jpg`, 
+                'fingerFile': `/static/gallery/${sourceId}/fingerprint.bmp`,
+                'irisNirFile': `/static/gallery/${sourceId}/iris_nir.jpg`,
+                'irisVisFile': `/static/gallery/${sourceId}/iris_vis.jpg`
+            };
+            
+            document.getElementById('identitySelect').value = claim;
+            
+            // Fetch and Populate
+            for (const [inputId, url] of Object.entries(sources)) {
+                try {
+                    const resp = await fetch(url);
+                    const blob = await resp.blob();
+                    const filename = url.split('/').pop();
+                    const file = new File([blob], filename, { type: blob.type });
+                    
+                    // Populate Input
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    const input = document.getElementById(inputId);
+                    input.files = dataTransfer.files;
+                    
+                    // Trigger Preview
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                         const imgId = inputId.replace('File', 'Preview').replace('irisNir', 'nir').replace('irisVis', 'vis');
+                        // Fix ID mapping manually if inconsistent
+                        let finalImgId = "";
+                        if(inputId === 'faceFile') finalImgId = 'facePreview';
+                        if(inputId === 'fingerFile') finalImgId = 'fingerPreview';
+                        if(inputId === 'irisNirFile') finalImgId = 'nirPreview';
+                        if(inputId === 'irisVisFile') finalImgId = 'visPreview';
+                        
+                        const img = document.getElementById(finalImgId);
+                        img.src = e.target.result;
+                        img.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                    
+                } catch (e) {
+                    console.error(`Failed to load ${url}`, e);
+                }
+            }
+        }
+
+        async function runAction() {
+            const formData = new FormData();
+            
+            const face = document.getElementById('faceFile').files[0];
+            const finger = document.getElementById('fingerFile').files[0];
+            const irisNir = document.getElementById('irisNirFile').files[0];
+            const irisVis = document.getElementById('irisVisFile').files[0];
+            
+            // Only append IF file exists AND checkbox is checked
+            if (face && document.getElementById('chkFace').checked) formData.append('face_file', face);
+            if (finger && document.getElementById('chkFinger').checked) formData.append('fingerprint_file', finger);
+            if (irisNir && document.getElementById('chkNir').checked) formData.append('iris_nir_file', irisNir);
+            if (irisVis && document.getElementById('chkVis').checked) formData.append('iris_vis_file', irisVis);
+            
+            // Validation
+            let sentCount = 0;
+            if (face && document.getElementById('chkFace').checked) sentCount++;
+            if (finger && document.getElementById('chkFinger').checked) sentCount++;
+            if (irisNir && document.getElementById('chkNir').checked) sentCount++;
+            if (irisVis && document.getElementById('chkVis').checked) sentCount++;
+
+            if (sentCount === 0) {
+                alert("Please select and enable at least one biometric modality!");
+                return;
+            }
+
+            const btn = document.getElementById('btnAction');
+            btn.disabled = true;
+            btn.innerText = "Processing...";
+            
+            const endpoint = CURRENT_MODE === 'verify' ? '/verify' : '/identify';
+            
+            if (CURRENT_MODE === 'verify') {
+                formData.append('identity', document.getElementById('identitySelect').value);
+            }
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                const resDiv = document.getElementById('result');
+                resDiv.style.display = 'block';
+                
+                if (CURRENT_MODE === 'verify') {
+                    resDiv.className = data.decision === 'AUTHORIZED' ? 'authorized' : 'rejected';
+                    document.getElementById('decisionText').innerText = data.decision;
+                    document.getElementById('scoreText').innerText = `Confidence: ${(data.score * 100).toFixed(1)}%`;
+                } else {
+                    // Identification Mode
+                    const isMatch = data.match_id !== "Unknown";
+                    resDiv.className = isMatch ? 'authorized' : 'rejected';
+                    const idText = isMatch ? `Identified as: ${data.match_id}` : "Unknown (No Match)";
+                    document.getElementById('decisionText').innerText = idText;
+                    document.getElementById('scoreText').innerText = `Confidence: ${(data.score * 100).toFixed(1)}%`;
+                }
+                
+                let detailsHtml = "Breakdown: ";
+                for (const [key, val] of Object.entries(data.details)) {
+                    detailsHtml += `[${key}: ${(val * 100).toFixed(1)}%] `;
+                }
+                document.getElementById('detailsText').innerText = detailsHtml;
+                
+            } catch (e) {
+                alert("Error: " + e);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = CURRENT_MODE === 'verify' ? "Verify Access" : "Identify User";
+            }
+        }
+    </script>
+</body>
+</html>
