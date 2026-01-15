@@ -124,7 +124,7 @@ class TrainingConfig:
     
     # If True, batches are sorted by resolution (Low -> High) within each epoch
     # If False, batches are randomly interleaved (Standard)
-    train_low_res_first: bool = True
+    train_low_res_first: bool = False
 
     # ====== PROGRESSIVE RESOLUTION TRAINING (LEGACY - DISABLED) ======
     # Kept for reference only, use native resolution instead
