@@ -105,21 +105,26 @@ class TrainingConfig:
     native_resolution_groups: dict = field(default_factory=lambda: {
         'low': {
             'target': (103, 103),
-            'batch_size': 64,
+            'batch_size': 128,
             'accum_steps': 1,
             'path_patterns': ['socofing'],
         },
         'high': {
             'target': (388, 388),
-            'batch_size': 14,
-            'accum_steps': 2,
+            'batch_size': 12,
+            'accum_steps': 1,
             'path_patterns': ['fingerprint', 'fingerprints'],
         },
     })
 
     # Oversampling ratio for minority group (high-res)
     # 1.0 = fully balanced (50/50), 0.0 = natural distribution (~98/2)
-    oversample_minority_ratio: float = 1.0
+    # Reduced to 0.5 to relieve VRAM pressure and speed up epochs
+    oversample_minority_ratio: float = 0.25
+    
+    # If True, batches are sorted by resolution (Low -> High) within each epoch
+    # If False, batches are randomly interleaved (Standard)
+    train_low_res_first: bool = True
 
     # ====== PROGRESSIVE RESOLUTION TRAINING (LEGACY - DISABLED) ======
     # Kept for reference only, use native resolution instead
