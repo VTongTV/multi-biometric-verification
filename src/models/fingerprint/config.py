@@ -120,7 +120,7 @@ class TrainingConfig:
     # Oversampling ratio for minority group (high-res)
     # 1.0 = fully balanced (50/50), 0.0 = natural distribution (~98/2)
     # Reduced to 0.5 to relieve VRAM pressure and speed up epochs
-    oversample_minority_ratio: float = 0.25
+    oversample_minority_ratio: float = 0.1
     
     # If True, batches are sorted by resolution (Low -> High) within each epoch
     # If False, batches are randomly interleaved (Standard)
