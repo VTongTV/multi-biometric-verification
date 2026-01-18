@@ -8,7 +8,7 @@ import { AnalysisFeed, LogEntry } from "@/components/dashboard/AnalysisFeed";
 import { IdentityManager } from "@/components/dashboard/IdentityManager";
 import { ResultsPanel, AnalysisResult } from "@/components/dashboard/ResultsPanel";
 import { HeaderStats } from "@/components/dashboard/HeaderStats";
-import { SubjectDetailModal } from "@/components/dashboard/DetailModaSubjectl";
+import { SubjectDetailModal } from "@/components/dashboard/SubjectDetailModal";
 import { cn } from "@/lib/utils";
 import { getDisplayName } from "@/lib/identityMap";
 import { motion } from "framer-motion";
