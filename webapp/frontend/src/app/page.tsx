@@ -1,18 +1,18 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
-import { Server, Database, RefreshCw } from "lucide-react";
+import { Server, Database, RefreshCw, Zap, Activity, Radio, Lock, Search } from "lucide-react";
 import { HeaderWidgets } from "@/components/dashboard/HeaderWidgets";
 import { BiometricForm } from "@/components/dashboard/BiometricForm";
 import { AnalysisFeed, LogEntry } from "@/components/dashboard/AnalysisFeed";
 import { IdentityManager } from "@/components/dashboard/IdentityManager";
 import { ResultsPanel, AnalysisResult } from "@/components/dashboard/ResultsPanel";
-import { SystemMonitor } from "@/components/dashboard/SystemMonitor";
-import { SubjectDetailModal } from "@/components/dashboard/SubjectDetailModal";
+import { HeaderStats } from "@/components/dashboard/HeaderStats";
+import { SubjectDetailModal } from "@/components/dashboard/DetailModaSubjectl";
 import { cn } from "@/lib/utils";
 import { getDisplayName } from "@/lib/identityMap";
-import { TiltWrapper } from "@/components/ui/TiltWrapper";
 import { motion } from "framer-motion";
+import { NoiseBackground } from "@/components/ui/NoiseBackground";
 
 export default function Home() {
   const [mode, setMode] = useState<"verify" | "identify">("verify");
@@ -91,16 +91,17 @@ export default function Home() {
 
   if (!isSystemReady) {
       return (
-        <div className="min-h-screen bg-slate-50 text-cyan-700 font-mono flex flex-col items-center justify-center p-4">
-            <div className="animate-spin mb-8 text-cyan-600">
+        <div className="min-h-screen bg-slate-50 text-cyan-700 font-mono flex flex-col items-center justify-center p-4 relative overflow-hidden">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-0 pointer-events-none bg-[length:100%_4px,3px_100%]"></div>
+            <div className="animate-spin mb-8 text-cyan-600 relative z-10">
                 <RefreshCw className="w-12 h-12" />
             </div>
-            <h1 className="text-2xl font-bold mb-4 tracking-widest uppercase">Biometric Secure Core</h1>
-            <div className="flex flex-col gap-2 items-center text-sm">
+            <h1 className="text-2xl font-bold mb-4 tracking-widest uppercase relative z-10">Biometric Secure Core</h1>
+            <div className="flex flex-col gap-2 items-center text-sm relative z-10">
                 <span className="font-bold uppercase tracking-wider text-slate-600">Establishing Secure Connection...</span>
                 <span className="text-xs text-slate-400 uppercase tracking-widest">Initializing Caching Protocol & Vector Databases</span>
             </div>
-            <div className="mt-8 w-64 h-1 bg-slate-200 overflow-hidden">
+            <div className="mt-8 w-64 h-1 bg-slate-200 overflow-hidden relative z-10">
                 <div className="h-full bg-cyan-500 animate-[loading_2s_ease-in-out_infinite] w-1/2"></div>
             </div>
         </div>
@@ -259,21 +260,35 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans text-sm selection:bg-cyan-100 selection:text-cyan-900 flex flex-col">
-      
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans text-sm selection:bg-cyan-100 selection:text-cyan-900 flex flex-col relative pb-4">
+      <NoiseBackground />
+      {/* Global Background Grid */}
+      <div className="absolute inset-0 pointer-events-none z-0" 
+           style={{ 
+               backgroundImage: 'linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)', 
+               backgroundSize: '40px 40px' 
+           }} 
+      />
+      <div className="absolute inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-transparent via-slate-100/50 to-slate-200/50 opacity-60"></div>
+
       {/* Light Header */}
-      <nav className="bg-white/90 backdrop-blur-md border-b border-slate-200 shrink-0 z-50 h-14 flex items-center shadow-sm">
+      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200 shrink-0 z-40 h-14 flex items-center shadow-sm relative">
         <div className="max-w-full w-full mx-auto px-4 flex justify-between items-center">
             <div className="flex items-center gap-4 group cursor-default">
               {/* Tech Logo Box */}
-              <div className="w-8 h-8 bg-slate-800 border border-slate-600 text-cyan-400 flex items-center justify-center font-bold font-mono text-xs shadow-sm relative overflow-hidden transition-all group-hover:border-cyan-500 group-hover:text-cyan-300">
-                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-slate-700/50 to-transparent opacity-50"></div>
-                 [BL]
+              <div className="w-9 h-9 bg-slate-900 text-cyan-400 flex items-center justify-center font-bold font-mono text-sm shadow-sm relative overflow-hidden transition-all group-hover:shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                 <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%,100%_100%] bg-[position:-100%_0,0_0] bg-no-repeat transition-[background-position_0s_ease] hover:bg-[position:200%_0,0_0] duration-1000"></div>
+                 <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan-500"></div>
+                 <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-cyan-500"></div>
+                 BL
               </div>
               
-              <div className="leading-tight font-mono">
-                  <div className="font-bold text-slate-800 tracking-widest text-base uppercase flex items-center gap-2">
+              <div className="leading-tight font-mono hidden md:block">
+                  <div className="font-bold text-slate-900 tracking-widest text-base uppercase flex items-center gap-2">
                     BIOSECURE <span className="text-cyan-600">LABS</span>
+                  </div>
+                  <div className="text-[9px] text-slate-400 tracking-[0.2em] uppercase">
+                      Advanced Biometric Systems
                   </div>
               </div>
             </div>
@@ -281,7 +296,7 @@ export default function Home() {
             <HeaderWidgets />
             
             <div className="flex items-center gap-4">
-               <SystemMonitor 
+               <HeaderStats 
                   latency={latency} 
                   dbCount={activeCount} 
                   totalCapacity={identities.length}
@@ -292,17 +307,17 @@ export default function Home() {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1 w-full mx-auto p-4 flex flex-col gap-4 relative">
+      <main className="flex-1 w-full mx-auto p-4 flex flex-col gap-4 relative z-10">
         <SubjectDetailModal 
             subjectId={inspectId} 
             onClose={() => setInspectId(null)} 
         />
         
         {/* TOP SECTION: Controls (Flex Grow - Dominating Space) */}
-        <div className="flex-1 min-h-[400px] grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4">
             {/* Identity Manager (5 cols) */}
-            <div className="lg:col-span-5 h-full min-h-0 flex flex-col">
-                 <TiltWrapper className="h-full flex-1 min-h-0" intensity={2}>
+            <div className="lg:col-span-5 flex flex-col h-[0px] min-h-full">
+                 <div className="h-full flex-1 min-h-0">
                      <IdentityManager 
                         identities={identities}
                         activeCount={activeCount}
@@ -313,62 +328,60 @@ export default function Home() {
                         onThresholdChange={setThreshold}
                         onInspect={setInspectId}
                     />
-                 </TiltWrapper>
+                 </div>
             </div>
 
             {/* Biometric Controls (7 cols) */}
-            <div className="lg:col-span-7 flex flex-col gap-3 h-full min-h-0">
+            <div className="lg:col-span-7 flex flex-col gap-3 h-full">
                  {/* Mode Switcher */}
                 <div className="bg-white border border-slate-300 p-1 flex shadow-sm shrink-0">
                    <button 
                       onClick={() => setMode('verify')}
                       className={cn(
-                          "flex-1 py-1.5 text-xs font-bold uppercase tracking-widest transition-all duration-200 relative overflow-hidden font-mono",
+                          "flex-1 py-1.5 text-xs font-bold uppercase tracking-widest transition-all duration-200 relative overflow-hidden font-mono flex items-center justify-center gap-2",
                           mode === 'verify' 
-                            ? "bg-slate-800 text-cyan-400 shadow-sm border border-slate-700" 
-                            : "text-slate-500 hover:text-slate-800 hover:bg-slate-100"
+                            ? "bg-slate-900 text-cyan-400 shadow-sm border border-slate-700" 
+                            : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
                       )}
                    >
-                      Verify (1:1)
+                      <Lock className="w-3 h-3" /> Verify (1:1)
                    </button>
                    <button 
                       onClick={() => setMode('identify')}
                       className={cn(
-                          "flex-1 py-1.5 text-xs font-bold uppercase tracking-widest transition-all duration-200 relative overflow-hidden font-mono",
+                          "flex-1 py-1.5 text-xs font-bold uppercase tracking-widest transition-all duration-200 relative overflow-hidden font-mono flex items-center justify-center gap-2",
                           mode === 'identify' 
-                            ? "bg-slate-800 text-cyan-400 shadow-sm border border-slate-700" 
-                            : "text-slate-500 hover:text-slate-800 hover:bg-slate-100"
+                            ? "bg-slate-900 text-cyan-400 shadow-sm border border-slate-700" 
+                            : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
                       )}
                    >
-                      Identify (1:N)
+                      <Search className="w-3 h-3" /> Identify (1:N)
                    </button>
                 </div>
 
-                <div className="flex-1 min-h-0 relative">
-                    <TiltWrapper className="h-full absolute inset-0" intensity={2}>
+                <div className="flex-1">
                         <BiometricForm 
-                            mode={mode} 
+                            mode={mode}
                             identities={identities} 
                             onSubmit={handleSubmit}
                             isProcessing={isProcessing}
                             onPresetLoad={handlePresetLoad}
+                            result={analysisResult}
                         />
-                    </TiltWrapper>
                 </div>
             </div>
         </div>
 
         {/* BOTTOM SECTION: Results & Logs (Fixed Height) */}
         <div className="h-96 shrink-0 grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <TiltWrapper className="h-full" intensity={2}>
+            <div className="h-full">
                 <ResultsPanel result={analysisResult} history={history} onSelectHistory={setAnalysisResult} />
-            </TiltWrapper>
-            <TiltWrapper className="h-full" intensity={2}>
+            </div>
+            <div className="h-full">
                 <AnalysisFeed logs={logs} />
-            </TiltWrapper>
+            </div>
         </div>
       </main>
     </div>
   );
 }
-
