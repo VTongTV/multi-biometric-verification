@@ -101,10 +101,20 @@ class TrainingConfig:
     image_size: int = 112  # IResNet standard input size is 112x112
     min_samples_per_class: int = 2  # Face datasets often have fewer samples per identity
     
+    # Exclusion for valid benchmarking (Open-Set LFW)
+    exclude_sources: List[str] = field(default_factory=lambda: ['lfw'])
+
     # Quick test mode - for fast verification that all graphs generate correctly
     quick_test: bool = False
     quick_test_samples_per_source: int = 10  # Classes per dataset source
     quick_test_epochs: int = 3
+    
+    # AT&T Validation Path (Optional override)
+    atnt_path: str = None
+    
+    # Evaluation Mode
+    evaluate_only: bool = False
+    checkpoint_path: str = None  # Path to specific checkpoint for evaluation
     
     @property
     def effective_batch_size(self) -> int:
