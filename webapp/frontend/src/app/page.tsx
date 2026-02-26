@@ -11,6 +11,7 @@ import { HeaderStats } from "@/components/dashboard/HeaderStats";
 import { SubjectDetailModal } from "@/components/dashboard/SubjectDetailModal";
 import { cn } from "@/lib/utils";
 import { getDisplayName } from "@/lib/identityMap";
+import { getApiBase } from "@/lib/api";
 import { motion } from "framer-motion";
 import { NoiseBackground } from "@/components/ui/NoiseBackground";
 
@@ -51,8 +52,8 @@ export default function Home() {
     let isMounted = true;
     const fetchIdentities = async () => {
         try {
-            const API_BASE = `${window.location.protocol}//${window.location.hostname}:8000`;
-            const res = await fetch(`${API_BASE}/api/v1/identities`);
+            const apiBase = getApiBase();
+            const res = await fetch(`${apiBase}/api/v1/identities`);
             if (res.ok) {
                 const data: string[] = await res.json();
                 if (isMounted) {
@@ -138,8 +139,8 @@ export default function Home() {
     }
 
     const endpoint = mode === 'verify' ? '/api/v1/verify' : '/api/v1/identify';
-    const API_BASE = `${window.location.protocol}//${window.location.hostname}:8000`;
-    const API_URL = `${API_BASE}${endpoint}`;
+    const apiBase = getApiBase();
+    const API_URL = `${apiBase}${endpoint}`;
 
     if (mode === 'identify' && activeCount < identities.length) {
         const activeIdsList = identities.slice(0, activeCount).join(',');

@@ -2,6 +2,18 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Create local env config:
+
+```bash
+cp .env.example .env.local
+```
+
+Set API base URL if needed:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+```
+
 First, run the development server:
 
 ```bash
