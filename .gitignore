@@ -1,0 +1,38 @@
+# datasets and trained artifacts
+data/
+outputs/
+weights/
+logs/
+
+# academic and review material
+paper/
+review/
+plans/
+
+# docs generated as pdf
+HANDOVER.md
+HANDOVER.pdf
+DIRECTORY_MAP.md
+
+# node
+node_modules/
+.next/
+out/
+next-env.d.ts
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# enrolled biometric templates (runtime data, not source)
+webapp/backend/src/app/static/gallery/
+
+# env and editor
+.env
+.env.local
+.env.production
+.DS_Store
+Thumbs.db
