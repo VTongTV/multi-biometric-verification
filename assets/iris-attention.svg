@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1280 720" width="1280" height="720" font-family="Arial, Helvetica, sans-serif">
+  <title>IrisAttention and the gap between near-infrared and visible light</title>
+  <defs>
+    <g id="irisatt-eye">
+      <circle cx="120" cy="112" r="88" fill="#1A1512" stroke="#4A3E34" stroke-width="2"/>
+      <g stroke="#6B594B" stroke-width="1.5">
+        <path d="M120,24 L120,78"/><path d="M153,31 L143,81"/><path d="M180,50 L159,91"/>
+        <path d="M197,80 L166,109"/><path d="M203,112 L164,112"/><path d="M197,144 L166,115"/>
+        <path d="M180,174 L159,133"/><path d="M153,193 L143,143"/><path d="M120,200 L120,146"/>
+        <path d="M87,193 L97,143"/><path d="M60,174 L81,133"/><path d="M43,144 L74,115"/>
+        <path d="M37,112 L76,112"/><path d="M43,80 L74,109"/><path d="M60,50 L81,91"/>
+        <path d="M87,31 L97,81"/>
+      </g>
+      <circle cx="120" cy="112" r="40" fill="#0B0908" stroke="#F0A63C" stroke-width="2"/>
+      <circle cx="120" cy="112" r="14" fill="#050403"/>
+    </g>
+    <radialGradient id="irisatt-glow">
+      <stop offset="0" stop-color="#F0A63C" stop-opacity="0"/>
+      <stop offset="0.62" stop-color="#F0A63C" stop-opacity="0.22"/>
+      <stop offset="0.88" stop-color="#F0A63C" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#F0A63C" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="irisatt-glowf" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="irisatt-outclip">
+      <rect x="696" y="160" width="124" height="124" rx="8"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1280" height="720" fill="#100D0B"/>
+
+  <text x="64" y="56" font-size="26" font-weight="bold" fill="#F6EDE1">Same attention, very different light</text>
+  <text x="64" y="78" font-size="14" fill="#9C8B7A">IrisAttention gates the iris texture, so lashes and glare lose their weight</text>
+
+  <g id="irisatt-input">
+    <rect x="64" y="160" width="124" height="124" rx="8" fill="#1A1512" stroke="#4A3E34"/>
+    <g transform="translate(66,162) scale(0.52)"><use xlink:href="#irisatt-eye"/></g>
+    <text x="126" y="302" font-size="11" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">X: CxHxW</text>
+  </g>
+
+  <path id="irisatt-c-se" d="M192,222 L236,158" stroke="#4A3E34" stroke-width="2" fill="none"/>
+  <path id="irisatt-c-eca" d="M192,222 L236,262" stroke="#4A3E34" stroke-width="2" fill="none"/>
+
+  <g id="irisatt-se">
+    <rect x="240" y="110" width="330" height="92" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <text x="256" y="132" font-size="13" font-weight="bold" fill="#F0A63C">SEBlock</text>
+    <text x="554" y="132" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">global context</text>
+    <rect id="irisatt-se-in" x="256" y="146" width="90" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/>
+    <rect id="irisatt-se-mid" x="376" y="142" width="30" height="24" rx="3" fill="#2E2620" stroke="#4A3E34">
+      <animate attributeName="width" dur="12s" repeatCount="indefinite" values="30;30;12;12;30;30" keyTimes="0;0.07;0.11;0.19;0.23;1"/>
+    </rect>
+    <rect id="irisatt-se-out" x="436" y="146" width="90" height="16" rx="3" fill="#2E2620" stroke="#4A3E34">
+      <animate attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.19;0.23;1"/>
+    </rect>
+    <path d="M350,154 L372,154" stroke="#4A3E34" stroke-width="2"/>
+    <path d="M410,154 L432,154" stroke="#4A3E34" stroke-width="2"/>
+    <text x="256" y="188" font-size="11" fill="#9C8B7A">pool, then two conv layers at C/16</text>
+  </g>
+
+  <g id="irisatt-eca">
+    <rect x="240" y="212" width="330" height="92" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <text x="256" y="234" font-size="13" font-weight="bold" fill="#F0A63C">ECA</text>
+    <text x="554" y="234" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">local cross-channel</text>
+    <rect id="irisatt-eca-k" x="256" y="248" width="54" height="26" rx="3" fill="none" stroke="#F0A63C" stroke-width="2">
+      <animate attributeName="x" dur="12s" repeatCount="indefinite" values="256;256;446;446;256;256" keyTimes="0;0.26;0.40;0.95;1;1"/>
+    </rect>
+    <text x="256" y="292" font-size="11" fill="#9C8B7A">a 1D kernel slides across the channel axis</text>
+  </g>
+
+  <g id="irisatt-gate">
+    <path d="M574,156 L600,206" stroke="#4A3E34" stroke-width="2" fill="none"/>
+    <path d="M574,258 L600,232" stroke="#4A3E34" stroke-width="2" fill="none"/>
+    <circle cx="628" cy="219" r="28" fill="#1A1512" stroke="#F0A63C" stroke-width="2"/>
+    <text x="628" y="227" font-size="18" fill="#F0A63C" text-anchor="middle">&#215;</text>
+    <path d="M656,219 L692,219" stroke="#4A3E34" stroke-width="2" fill="none"/>
+  </g>
+
+  <g id="irisatt-output">
+    <rect x="696" y="160" width="124" height="124" rx="8" fill="#1A1512" stroke="#4A3E34"/>
+    <g transform="translate(698,162) scale(0.52)"><use xlink:href="#irisatt-eye"/></g>
+    <g clip-path="url(#irisatt-outclip)">
+    <circle id="irisatt-outglow" cx="758" cy="222" r="20" fill="url(#irisatt-glow)">
+      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="20;20;104;104;20;20" keyTimes="0;0.46;0.56;0.95;1;1"/>
+    </circle>
+  </g>
+    <text x="758" y="302" font-size="11" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">X gated</text>
+  </g>
+
+  <g id="irisatt-note">
+    <text x="856" y="176" font-size="12" fill="#F6EDE1">SE reads the whole iris and</text>
+    <text x="856" y="196" font-size="12" fill="#F6EDE1">sets one weight per channel.</text>
+    <text x="856" y="224" font-size="12" fill="#F6EDE1">ECA then compares each channel</text>
+    <text x="856" y="244" font-size="12" fill="#F6EDE1">with its neighbours.</text>
+    <text x="856" y="272" font-size="12" fill="#F6EDE1">No dimensionality reduction,</text>
+    <text x="856" y="292" font-size="12" fill="#F6EDE1">so fine iris code survives.</text>
+  </g>
+
+  <g id="irisatt-compare">
+    <rect x="64" y="388" width="560" height="272" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <text x="88" y="416" font-size="14" font-weight="bold" fill="#F0A63C">Near-infrared, CASIA-Interval</text>
+    <rect x="88" y="432" width="240" height="240" rx="8" fill="#1A1512" stroke="#4A3E34"/>
+    <g transform="translate(90,436)"><use xlink:href="#irisatt-eye"/></g>
+    <circle id="irisatt-nir" cx="208" cy="554" r="20" fill="url(#irisatt-glow)">
+      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="20;20;98;98;20;20" keyTimes="0;0.62;0.72;0.95;1;1"/>
+    </circle>
+    <text x="356" y="470" font-size="11" fill="#9C8B7A">EER</text>
+    <rect x="356" y="478" width="240" height="18" rx="9" fill="#2E2620" stroke="#4A3E34"/>
+    <rect id="irisatt-nir-bar" x="356" y="478" width="0" height="18" rx="9" fill="#F0A63C">
+      <animate attributeName="width" dur="12s" repeatCount="indefinite" values="0;0;36;36;0;0" keyTimes="0;0.64;0.74;0.95;1;1"/>
+    </rect>
+    <text x="356" y="524" font-size="26" font-weight="bold" fill="#F6EDE1">0.91%</text>
+    <text x="356" y="550" font-size="11" fill="#9C8B7A">genuine and impostor scores</text>
+    <text x="356" y="570" font-size="11" fill="#9C8B7A">overlap about 3%</text>
+    <text x="356" y="598" font-size="11" fill="#9C8B7A">cooperative subjects,</text>
+    <text x="356" y="616" font-size="11" fill="#9C8B7A">controlled illumination</text>
+
+    <rect x="656" y="388" width="560" height="272" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <text x="680" y="416" font-size="14" font-weight="bold" fill="#F0A63C">Visible light, UBIRIS.v2</text>
+    <rect x="680" y="432" width="240" height="240" rx="8" fill="#1A1512" stroke="#4A3E34"/>
+    <g transform="translate(682,436)"><use xlink:href="#irisatt-eye"/></g>
+    <g id="irisatt-artifacts" stroke="#B8322A" stroke-width="4" stroke-linecap="round" fill="none">
+      <path d="M700,470 C740,492 760,462 800,478"/>
+      <path d="M694,502 C736,526 758,494 800,510"/>
+      <path d="M706,534 C744,554 762,528 806,542"/>
+    </g>
+    <ellipse cx="822" cy="618" rx="46" ry="26" fill="#E5533F" opacity="0.55"/>
+    <circle id="irisatt-vis" cx="800" cy="554" r="20" fill="url(#irisatt-glow)">
+      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="20;20;98;98;20;20" keyTimes="0;0.80;0.90;0.95;1;1"/>
+    </circle>
+    <text x="948" y="470" font-size="11" fill="#9C8B7A">EER</text>
+    <rect x="948" y="478" width="240" height="18" rx="9" fill="#2E2620" stroke="#4A3E34"/>
+    <rect id="irisatt-vis-bar" x="948" y="478" width="0" height="18" rx="9" fill="#B8322A">
+      <animate attributeName="width" dur="12s" repeatCount="indefinite" values="0;0;234;234;0;0" keyTimes="0;0.80;0.90;0.95;1;1"/>
+    </rect>
+    <text x="948" y="524" font-size="26" font-weight="bold" fill="#E5533F">5.84%</text>
+    <text x="948" y="550" font-size="11" fill="#9C8B7A">genuine and impostor scores</text>
+    <text x="948" y="570" font-size="11" fill="#9C8B7A">overlap about 15%</text>
+    <text x="948" y="598" font-size="11" fill="#9C8B7A">off-axis gaze, ambient</text>
+    <text x="948" y="616" font-size="11" fill="#9C8B7A">noise, lashes, glare</text>
+  </g>
+
+  <g id="irisatt-gap">
+    <text x="64" y="690" font-size="13" fill="#9C8B7A">Visible light costs 6.4 times the error rate of near-infrared on the same model.</text>
+  </g>
+
+  <g id="irisatt-anim-packets" filter="url(#irisatt-glowf)">
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M192,222 L236,158" keyPoints="0;1;1" keyTimes="0;0.08;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.01;0.03;0.07;0.10;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M192,222 L236,262" keyPoints="0;1;1" keyTimes="0;0.08;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.01;0.03;0.07;0.10;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M574,156 L600,206" keyPoints="0;1;1" keyTimes="0;0.24;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.21;0.235;0.265;0.295;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M574,258 L600,232" keyPoints="0;1;1" keyTimes="0;0.44;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.41;0.435;0.465;0.495;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M656,219 L692,219" keyPoints="0;1;1" keyTimes="0;0.48;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.45;0.475;0.505;0.535;1"/>
+    </circle>
+  </g>
+
+  <g id="irisatt-anim-artifacts">
+    <animate xlink:href="#irisatt-artifacts" attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;1;0;0" keyTimes="0;0.30;0.56;0.60;1"/>
+  </g>
+</svg>

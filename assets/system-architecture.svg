@@ -1,0 +1,267 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1280 720" width="1280" height="720" font-family="Arial, Helvetica, sans-serif">
+  <title>Multi-biometric verification architecture</title>
+  <defs>
+    <linearGradient id="sysarch-phoneGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#241D18"/>
+      <stop offset="1" stop-color="#171210"/>
+    </linearGradient>
+    <filter id="sysarch-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="720" fill="#100D0B"/>
+
+  <text x="64" y="56" font-size="26" font-weight="bold" fill="#F6EDE1">Four encoders, one decision</text>
+  <text x="64" y="78" font-size="14" fill="#9C8B7A">Independent modality-specific pipelines fused at the score level</text>
+
+  <g id="sysarch-card-face">
+    <rect x="64" y="96" width="352" height="262" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <text x="84" y="124" font-size="15" font-weight="bold" fill="#F0A63C">Face</text>
+    <text x="84" y="142" font-size="11" fill="#9C8B7A" font-family="Consolas, 'Courier New', monospace">embedding d=512</text>
+    <rect id="sysarch-face-s1" x="80" y="150" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="92" y="172" font-size="12" fill="#F6EDE1">MTCNN align</text>
+    <text x="388" y="172" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">112 x 112</text>
+    <rect id="sysarch-face-s2" x="80" y="204" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="92" y="226" font-size="12" fill="#F6EDE1">IResNet50</text>
+    <text x="388" y="226" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">PReLU</text>
+    <rect id="sysarch-face-s3" x="80" y="258" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="92" y="280" font-size="12" fill="#F6EDE1">AdaFace + attr head</text>
+    <text x="388" y="280" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">s=32, m=0.5</text>
+    <rect id="sysarch-face-s4" x="80" y="312" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="92" y="334" font-size="12" fill="#F6EDE1">Embedding</text>
+    <text x="388" y="334" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">L2 normalized</text>
+  </g>
+
+  <g id="sysarch-card-iris">
+    <rect x="464" y="96" width="352" height="262" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <text x="484" y="124" font-size="15" font-weight="bold" fill="#F0A63C">Iris</text>
+    <text x="484" y="142" font-size="11" fill="#9C8B7A" font-family="Consolas, 'Courier New', monospace">nir + visible, d=512</text>
+    <rect id="sysarch-iris-s1" x="480" y="150" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="492" y="172" font-size="12" fill="#F6EDE1">Square ROI crop</text>
+    <text x="788" y="172" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">224 x 224</text>
+    <rect id="sysarch-iris-s2" x="480" y="204" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="492" y="226" font-size="12" fill="#F6EDE1">EfficientNetV2-S</text>
+    <text x="788" y="226" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">shared backbone</text>
+    <rect id="sysarch-iris-s3" x="480" y="258" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="492" y="280" font-size="12" fill="#F6EDE1">IrisAttention</text>
+    <text x="788" y="280" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">SE + ECA</text>
+    <rect id="sysarch-iris-s4" x="480" y="312" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="492" y="334" font-size="12" fill="#F6EDE1">Embedding</text>
+    <text x="788" y="334" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">L2 normalized</text>
+  </g>
+
+  <g id="sysarch-card-print">
+    <rect x="864" y="96" width="352" height="262" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <text x="884" y="124" font-size="15" font-weight="bold" fill="#F0A63C">Fingerprint</text>
+    <text x="884" y="142" font-size="11" fill="#9C8B7A" font-family="Consolas, 'Courier New', monospace">embedding d=512</text>
+    <rect id="sysarch-print-s1" x="880" y="150" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="892" y="172" font-size="12" fill="#F6EDE1">Native resolution</text>
+    <text x="1188" y="172" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">up to 388 x 388</text>
+    <rect id="sysarch-print-s2" x="880" y="204" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="892" y="226" font-size="12" fill="#F6EDE1">EfficientNetV2-S</text>
+    <text x="1188" y="226" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">no resize</text>
+    <rect id="sysarch-print-s3" x="880" y="258" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="892" y="280" font-size="12" fill="#F6EDE1">RidgeAttention</text>
+    <text x="1188" y="280" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">SE + 7x7 spatial</text>
+    <rect id="sysarch-print-s4" x="880" y="312" width="320" height="34" rx="6" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="892" y="334" font-size="12" fill="#F6EDE1">Embedding</text>
+    <text x="1188" y="334" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">L2 normalized</text>
+  </g>
+
+  <g id="sysarch-stages-conn" stroke="#4A3E34" stroke-width="2" fill="none">
+    <path id="sysarch-face-c1" d="M240,184 L240,204"/>
+    <path id="sysarch-face-c2" d="M240,238 L240,258"/>
+    <path id="sysarch-face-c3" d="M240,292 L240,312"/>
+    <path id="sysarch-iris-c1" d="M640,184 L640,204"/>
+    <path id="sysarch-iris-c2" d="M640,238 L640,258"/>
+    <path id="sysarch-iris-c3" d="M640,292 L640,312"/>
+    <path id="sysarch-print-c1" d="M1040,184 L1040,204"/>
+    <path id="sysarch-print-c2" d="M1040,238 L1040,258"/>
+    <path id="sysarch-print-c3" d="M1040,292 L1040,312"/>
+  </g>
+
+  <g id="sysarch-score-rings">
+    <circle cx="240" cy="390" r="22" fill="none" stroke="#4A3E34" stroke-width="4"/>
+    <circle cx="580" cy="390" r="22" fill="none" stroke="#4A3E34" stroke-width="4"/>
+    <circle cx="700" cy="390" r="22" fill="none" stroke="#4A3E34" stroke-width="4"/>
+    <circle cx="1040" cy="390" r="22" fill="none" stroke="#4A3E34" stroke-width="4"/>
+    <text x="240" y="430" font-size="11" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">s_face</text>
+    <text x="580" y="430" font-size="11" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">s_iris_nir</text>
+    <text x="700" y="430" font-size="11" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">s_iris_vis</text>
+    <text x="1040" y="430" font-size="11" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">s_print</text>
+  </g>
+
+  <g id="sysarch-score-conn" stroke="#4A3E34" stroke-width="2" fill="none">
+    <path id="sysarch-sc-face" d="M240,412 L240,440"/>
+    <path id="sysarch-sc-irisnir" d="M580,412 L580,440"/>
+    <path id="sysarch-sc-irisvis" d="M700,412 L700,440"/>
+    <path id="sysarch-sc-print" d="M1040,412 L1040,440"/>
+  </g>
+
+  <g id="sysarch-fusion">
+    <rect x="64" y="440" width="1152" height="68" rx="10" fill="#1A1512" stroke="#F0A63C" stroke-width="2"/>
+    <text x="88" y="468" font-size="15" font-weight="bold" fill="#F0A63C">Decision-level score fusion</text>
+    <text x="88" y="490" font-size="12" fill="#9C8B7A">Each encoder keeps its own feature space. Cosine scores combine here, never features.</text>
+    <text x="1192" y="466" font-size="11" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">q_face &gt; 12.0</text>
+    <text x="1192" y="484" font-size="11" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">q_iris &gt; 10.0</text>
+    <text x="1192" y="502" font-size="11" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">q_print &gt; 1.5</text>
+  </g>
+
+  <path id="sysarch-fusion-out" d="M640,508 L640,518" stroke="#4A3E34" stroke-width="2" fill="none"/>
+
+  <g id="sysarch-phone">
+    <rect x="536" y="518" width="208" height="140" rx="18" fill="url(#sysarch-phoneGrad)" stroke="#4A3E34" stroke-width="2"/>
+    <rect x="612" y="526" width="56" height="5" rx="2.5" fill="#4A3E34"/>
+    <circle cx="640" cy="578" r="38" fill="none" stroke="#4A3E34" stroke-width="5"/>
+    <g id="sysarch-lock">
+      <rect id="sysarch-lock-body" x="622" y="572" width="36" height="28" rx="4" fill="#F0A63C">
+        <animateTransform attributeName="transform" type="translate" dur="12s" repeatCount="indefinite" values="0,0;0,0;0,9" keyTimes="0;0.60;1"/>
+        <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.63;0.72;1"/></rect>
+      <path id="sysarch-lock-shackle" d="M628,572 L628,562 a12,12 0 0 1 24,0 L652,572" fill="none" stroke="#F0A63C" stroke-width="5" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="translate" dur="12s" repeatCount="indefinite" values="0,0;0,0;0,-15" keyTimes="0;0.56;1"/>
+        <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.59;0.68;1"/>
+      </path>
+      <circle cx="640" cy="586" r="3.5" fill="#221C18">
+        <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.63;0.72;1"/>
+      </circle>
+    </g>
+    <text x="640" y="646" font-size="12" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">final score</text>
+  </g>
+
+  <g id="sysarch-verdict">
+    <text id="sysarch-verdict-word" x="512" y="572" font-size="26" font-weight="bold" fill="#9C8B7A" text-anchor="end">PENDING</text>
+    <text id="sysarch-verdict-sub" x="512" y="598" font-size="13" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">awaiting scores</text>
+  </g>
+
+  <g id="sysarch-threshold">
+    <rect x="780" y="566" width="400" height="28" rx="14" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="780" y="614" font-size="10" fill="#9C8B7A" font-family="Consolas, 'Courier New', monospace">0.00</text>
+    <text x="1180" y="614" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">1.00</text>
+  </g>
+
+  <g id="sysarch-legend" font-size="11" fill="#9C8B7A">
+    <rect x="64" y="674" width="14" height="10" rx="2" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="84" y="683">stage</text>
+    <circle cx="150" cy="679" r="6" fill="none" stroke="#F0A63C" stroke-width="3"/>
+    <text x="164" y="683">per-modality score</text>
+    <rect x="320" y="672" width="14" height="14" rx="3" fill="#1A1512" stroke="#F0A63C"/>
+    <text x="340" y="683">fusion and verdict</text>
+  </g>
+<g id="sysarch-anim-stage-lights">
+    <animate xlink:href="#sysarch-face-s1" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.075;0.085;1"/>
+    <animate xlink:href="#sysarch-face-s2" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.1333;0.1433;1"/>
+    <animate xlink:href="#sysarch-face-s3" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.1917;0.2017;1"/>
+    <animate xlink:href="#sysarch-face-s4" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.25;0.26;1"/>
+    <animate xlink:href="#sysarch-iris-s1" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.075;0.085;1"/>
+    <animate xlink:href="#sysarch-iris-s2" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.1333;0.1433;1"/>
+    <animate xlink:href="#sysarch-iris-s3" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.1917;0.2017;1"/>
+    <animate xlink:href="#sysarch-iris-s4" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.25;0.26;1"/>
+    <animate xlink:href="#sysarch-print-s1" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.075;0.085;1"/>
+    <animate xlink:href="#sysarch-print-s2" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.1333;0.1433;1"/>
+    <animate xlink:href="#sysarch-print-s3" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.1917;0.2017;1"/>
+    <animate xlink:href="#sysarch-print-s4" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#3B2E20;#3B2E20" keyTimes="0;0.25;0.26;1"/>
+  </g>
+
+  <g id="sysarch-card-to-ring" stroke="#4A3E34" stroke-width="2" fill="none">
+    <path d="M240,358 L240,368"/>
+    <path d="M1040,358 L1040,368"/>
+    <path id="sysarch-fork-nir" d="M640,358 L640,364 L580,368" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/>
+    <path id="sysarch-fork-vis" d="M640,358 L640,364 L700,368" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/>
+  </g>
+
+  <g id="sysarch-ring-arcs" fill="none" stroke="#F0A63C" stroke-width="4" stroke-linecap="round">
+    <circle cx="240" cy="390" r="22" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" transform="rotate(-90 240 390)">
+      <animate attributeName="stroke-dashoffset" dur="12s" repeatCount="indefinite" values="100;100;32;32" keyTimes="0;0.28;0.36;1"/>
+    </circle>
+    <circle cx="580" cy="390" r="22" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" transform="rotate(-90 580 390)">
+      <animate attributeName="stroke-dashoffset" dur="12s" repeatCount="indefinite" values="100;100;7;7" keyTimes="0;0.285;0.365;1"/>
+    </circle>
+    <circle cx="700" cy="390" r="22" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" transform="rotate(-90 700 390)">
+      <animate attributeName="stroke-dashoffset" dur="12s" repeatCount="indefinite" values="100;100;38;38" keyTimes="0;0.29;0.375;1"/>
+    </circle>
+    <circle cx="1040" cy="390" r="22" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" transform="rotate(-90 1040 390)">
+      <animate attributeName="stroke-dashoffset" dur="12s" repeatCount="indefinite" values="100;100;3;3" keyTimes="0;0.28;0.355;1"/>
+    </circle>
+  </g>
+
+  <g id="sysarch-ring-values" font-size="11" fill="#FFCF7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">
+    <text x="240" y="394">0.68</text>
+    <text x="580" y="394">0.93</text>
+    <text x="700" y="394">0.62</text>
+    <text x="1040" y="394">0.97</text>
+  </g>
+
+  <g id="sysarch-anim-unroll" filter="url(#sysarch-glow)">
+    <circle r="6" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M240,167 L240,390"
+        keyPoints="0;0;0.242;0.242;0.484;0.484;0.726;0.726;1;1" keyTimes="0;0.0833;0.1417;0.1667;0.2;0.225;0.2583;0.2833;0.29;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;0.05;0.27;0.31;1"/>
+    </circle>
+    <circle r="6" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M640,167 L640,358"
+        keyPoints="0;0;0.283;0.283;0.565;0.565;0.849;0.849;1;1" keyTimes="0;0.0833;0.1417;0.1667;0.2;0.225;0.2583;0.2833;0.29;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;0.05;0.27;0.31;1"/>
+    </circle>
+    <circle r="6" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M1040,167 L1040,390"
+        keyPoints="0;0;0.242;0.242;0.484;0.484;0.726;0.726;1;1" keyTimes="0;0.0833;0.1417;0.1667;0.2;0.225;0.2583;0.2833;0.29;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;0.05;0.27;0.31;1"/>
+    </circle>
+  </g>
+
+  <g id="sysarch-anim-fork">
+    <animate xlink:href="#sysarch-fork-nir" attributeName="stroke-dashoffset" dur="12s" repeatCount="indefinite" values="100;100;0;0" keyTimes="0;0.275;0.295;1"/>
+    <animate xlink:href="#sysarch-fork-vis" attributeName="stroke-dashoffset" dur="12s" repeatCount="indefinite" values="100;100;0;0" keyTimes="0;0.275;0.3;1"/>
+  </g>
+
+  <g id="sysarch-anim-fanin" filter="url(#sysarch-glow)">
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M240,412 L240,440" keyPoints="0;1;1" keyTimes="0;0.415;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.375;0.4;0.43;0.455;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M580,412 L580,440" keyPoints="0;1;1" keyTimes="0;0.415;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.378;0.403;0.433;0.458;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M700,412 L700,440" keyPoints="0;1;1" keyTimes="0;0.415;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.381;0.406;0.436;0.461;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M1040,412 L1040,440" keyPoints="0;1;1" keyTimes="0;0.415;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.375;0.4;0.43;0.455;1"/>
+    </circle>
+  </g>
+
+  <g id="sysarch-anim-decide">
+    <circle cx="640" cy="578" r="38" fill="none" stroke="#F0A63C" stroke-width="5" stroke-linecap="round"
+      pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" transform="rotate(-90 640 578)">
+      <animate attributeName="stroke-dashoffset" dur="12s" repeatCount="indefinite" values="100;100;21.9;21.9" keyTimes="0;0.46;0.56;1"/>
+    </circle>
+    <rect id="sysarch-thresh-fill" x="780" y="566" width="0" height="28" rx="14" fill="#F0A63C">
+      <animate attributeName="width" dur="12s" repeatCount="indefinite" values="0;0;312;312" keyTimes="0;0.46;0.56;1"/>
+    </rect>
+    <g id="sysarch-thresh-tick">
+      <line x1="1080" y1="558" x2="1080" y2="602" stroke="#F6EDE1" stroke-width="2"/>
+      <text x="1080" y="552" font-size="10" fill="#F6EDE1" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">threshold 0.750</text>
+    </g>
+    <g id="sysarch-anim-fusion-packet" filter="url(#sysarch-glow)">
+      <circle r="5" fill="#FFCF7A">
+        <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M640,508 L640,540" keyPoints="0;1;1" keyTimes="0;0.455;1"/>
+        <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.42;0.445;0.465;0.49;1"/>
+      </circle>
+    </g>
+    <g id="sysarch-verdict-granted">
+      <text x="512" y="572" font-size="26" font-weight="bold" fill="#F0A63C" text-anchor="end" opacity="0">GRANTED
+        <animate attributeName="opacity" calcMode="discrete" dur="12s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.60;1"/>
+      </text>
+      <text x="512" y="598" font-size="13" fill="#9C8B7A" text-anchor="end" opacity="0" font-family="Consolas, 'Courier New', monospace">score 0.781 vs 0.750
+        <animate attributeName="opacity" calcMode="discrete" dur="12s" repeatCount="indefinite" values="0;1;1" keyTimes="0;0.60;1"/>
+      </text>
+    </g>
+    <animate xlink:href="#sysarch-verdict-word" attributeName="opacity" calcMode="discrete" dur="12s" repeatCount="indefinite" values="1;0;0" keyTimes="0;0.60;1"/>
+    <animate xlink:href="#sysarch-verdict-sub" attributeName="opacity" calcMode="discrete" dur="12s" repeatCount="indefinite" values="1;0;0" keyTimes="0;0.60;1"/>
+  </g>
+</svg>

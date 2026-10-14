@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1280 720" width="1280" height="720" font-family="Arial, Helvetica, sans-serif">
+  <title>RidgeAttention module and ridge selectivity over training</title>
+  <defs>
+    <g id="ridgeatt-fp">
+      <g transform="rotate(-18 120 120)" fill="none" stroke="#4A3E34" stroke-width="2">
+        <ellipse cx="120" cy="120" rx="14" ry="20"/>
+        <ellipse cx="120" cy="120" rx="28" ry="40"/>
+        <ellipse cx="120" cy="120" rx="42" ry="60"/>
+        <ellipse cx="120" cy="120" rx="56" ry="80"/>
+        <ellipse cx="120" cy="120" rx="70" ry="100"/>
+        <ellipse cx="120" cy="120" rx="84" ry="118"/>
+      </g>
+    </g>
+    <radialGradient id="ridgeatt-glow">
+      <stop offset="0" stop-color="#F0A63C" stop-opacity="0.85"/>
+      <stop offset="0.55" stop-color="#F0A63C" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#F0A63C" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="ridgeatt-clip">
+      <rect x="0" y="0" width="240" height="240" rx="8"/>
+    </clipPath>
+    <filter id="ridgeatt-glowf" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="720" fill="#100D0B"/>
+
+  <text x="64" y="56" font-size="26" font-weight="bold" fill="#F6EDE1">RidgeAttention learns where the ridges run</text>
+  <text x="64" y="78" font-size="14" fill="#9C8B7A">Two branches gate the feature map, then the gate sharpens as training runs</text>
+
+  <g id="ridgeatt-input">
+    <rect x="64" y="170" width="120" height="120" rx="8" fill="#1A1512" stroke="#4A3E34"/>
+    <g transform="translate(64,170) scale(0.5)"><use xlink:href="#ridgeatt-fp"/></g>
+    <text x="124" y="308" font-size="11" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">X: CxHxW</text>
+    <text x="124" y="324" font-size="10" fill="#9C8B7A" text-anchor="middle">feature map</text>
+  </g>
+
+  <path id="ridgeatt-in-conn" d="M188,230 L226,168" stroke="#4A3E34" stroke-width="2" fill="none"/>
+  <path id="ridgeatt-in-conn2" d="M188,230 L226,294" stroke="#4A3E34" stroke-width="2" fill="none"/>
+
+  <g id="ridgeatt-chan">
+    <rect x="230" y="108" width="340" height="114" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <text x="246" y="130" font-size="13" font-weight="bold" fill="#F0A63C">Channel branch</text>
+    <text x="554" y="130" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">avg+max pool, MLP, sigmoid</text>
+    <rect id="ridgeatt-c00" x="240" y="138" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c10" x="240" y="159" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c20" x="240" y="180" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c30" x="240" y="201" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/>
+    <rect id="ridgeatt-c01" x="278" y="138" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c11" x="278" y="159" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c21" x="278" y="180" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c31" x="278" y="201" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/>
+    <rect id="ridgeatt-c02" x="316" y="138" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c12" x="316" y="159" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c22" x="316" y="180" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c32" x="316" y="201" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/>
+    <rect id="ridgeatt-c03" x="354" y="138" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c13" x="354" y="159" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c23" x="354" y="180" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c33" x="354" y="201" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/>
+    <rect id="ridgeatt-c04" x="392" y="138" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c14" x="392" y="159" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c24" x="392" y="180" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c34" x="392" y="201" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/>
+    <rect id="ridgeatt-c05" x="430" y="138" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c15" x="430" y="159" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c25" x="430" y="180" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c35" x="430" y="201" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/>
+    <rect id="ridgeatt-c06" x="468" y="138" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c16" x="468" y="159" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c26" x="468" y="180" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c36" x="468" y="201" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/>
+    <rect id="ridgeatt-c07" x="506" y="138" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c17" x="506" y="159" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c27" x="506" y="180" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/><rect id="ridgeatt-c37" x="506" y="201" width="32" height="16" rx="3" fill="#2E2620" stroke="#4A3E34"/>
+  </g>
+
+  <g id="ridgeatt-chan-sweep">
+    <rect x="236" y="134" width="40" height="88" rx="6" fill="#F0A63C" opacity="0.16">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M0,0 L270,0" keyPoints="0;0;1;1" keyTimes="0;0.09;0.36;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0.5;0.5;0;0" keyTimes="0;0.09;0.34;0.37;1"/>
+    </rect>
+  </g>
+
+  <g id="ridgeatt-spatial">
+    <rect x="230" y="238" width="340" height="114" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <text x="246" y="260" font-size="13" font-weight="bold" fill="#F0A63C">Spatial branch</text>
+    <text x="554" y="260" font-size="10" fill="#9C8B7A" text-anchor="end" font-family="Consolas, 'Courier New', monospace">7x7 conv, sigmoid</text>
+    <rect x="240" y="270" width="110" height="70" rx="6" fill="#1A1512" stroke="#4A3E34"/>
+    <g transform="translate(243,272) scale(0.29)"><use xlink:href="#ridgeatt-fp"/></g>
+    <rect id="ridgeatt-kernel" x="278" y="288" width="34" height="34" rx="3" fill="none" stroke="#F0A63C" stroke-width="2"/>
+    <text x="366" y="292" font-size="11" fill="#F6EDE1">keeps ridge flow</text>
+    <text x="366" y="310" font-size="11" fill="#F6EDE1">and drops pores</text>
+    <text x="366" y="330" font-size="10" fill="#9C8B7A" font-family="Consolas, 'Courier New', monospace">larger kernel</text>
+  </g>
+
+  <g id="ridgeatt-spatial-beam">
+    <rect x="236" y="266" width="118" height="78" rx="8" fill="#F0A63C" opacity="0">
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.35;0.35;0;0" keyTimes="0;0.11;0.14;0.33;0.36;1"/>
+      <animate attributeName="width" dur="12s" repeatCount="indefinite" values="14;14;14;110;110;14;14" keyTimes="0;0.11;0.13;0.30;0.33;0.35;1"/>
+    </rect>
+  </g>
+
+  <g id="ridgeatt-fuse">
+    <path d="M574,165 L600,200" stroke="#4A3E34" stroke-width="2" fill="none"/>
+    <path d="M574,295 L600,260" stroke="#4A3E34" stroke-width="2" fill="none"/>
+    <circle cx="630" cy="230" r="30" fill="#1A1512" stroke="#F0A63C" stroke-width="2"/>
+    <text x="630" y="238" font-size="20" fill="#F0A63C" text-anchor="middle">&#215;</text>
+    <text x="630" y="282" font-size="10" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">elementwise</text>
+    <path d="M660,230 L696,230" stroke="#4A3E34" stroke-width="2" fill="none"/>
+  </g>
+
+  <g id="ridgeatt-output">
+    <rect x="700" y="170" width="120" height="120" rx="8" fill="#1A1512" stroke="#4A3E34"/>
+    <g transform="translate(700,170) scale(0.5)"><use xlink:href="#ridgeatt-fp"/></g>
+    <g clip-path="url(#ridgeatt-clip)" transform="translate(700,170) scale(0.5)">
+      <circle id="ridgeatt-outglow" cx="120" cy="120" r="10" fill="url(#ridgeatt-glow)">
+        <animate attributeName="r" dur="12s" repeatCount="indefinite" values="10;10;96;96;10;10" keyTimes="0;0.40;0.52;0.94;0.97;1"/>
+      </circle>
+    </g>
+    <text x="760" y="308" font-size="11" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">X gated</text>
+  </g>
+
+  <g id="ridgeatt-note">
+    <text x="856" y="200" font-size="12" fill="#F6EDE1">No ridge labels are used.</text>
+    <text x="856" y="222" font-size="12" fill="#F6EDE1">The gate aligns to ridges</text>
+    <text x="856" y="244" font-size="12" fill="#F6EDE1">on its own during training.</text>
+    <text x="856" y="276" font-size="11" fill="#9C8B7A">Correlation with the ridge mask:</text>
+    <text x="856" y="298" font-size="11" fill="#FFCF7A" font-family="Consolas, 'Courier New', monospace">0.12 &#8594; 0.72 &#8594; 0.81</text>
+  </g>
+
+  <g id="ridgeatt-epochs">
+    <rect x="64" y="390" width="340" height="244" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <rect x="114" y="390" width="240" height="240" rx="8" fill="#1A1512" stroke="#4A3E34"/>
+    <g transform="translate(114,390)"><use xlink:href="#ridgeatt-fp"/></g>
+    <circle id="ridgeatt-e1" cx="234" cy="510" r="10" fill="url(#ridgeatt-glow)">
+      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="10;10;34;34;10;10" keyTimes="0;0.46;0.54;0.94;0.97;1"/>
+    </circle>
+    <text x="234" y="656" font-size="12" fill="#F6EDE1" text-anchor="middle">Epoch 5</text>
+    <text x="234" y="674" font-size="11" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">corr 0.12, uniform</text>
+
+    <rect x="444" y="390" width="340" height="244" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <rect x="494" y="390" width="240" height="240" rx="8" fill="#1A1512" stroke="#4A3E34"/>
+    <g transform="translate(494,390)"><use xlink:href="#ridgeatt-fp"/></g>
+    <circle id="ridgeatt-e2" cx="614" cy="510" r="10" fill="url(#ridgeatt-glow)">
+      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="10;10;66;66;10;10" keyTimes="0;0.56;0.66;0.94;0.97;1"/>
+    </circle>
+    <text x="614" y="656" font-size="12" fill="#F6EDE1" text-anchor="middle">Epoch 40</text>
+    <text x="614" y="674" font-size="11" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">corr 0.72, coarse</text>
+
+    <rect x="824" y="390" width="340" height="244" rx="10" fill="#221C18" stroke="#4A3E34"/>
+    <rect x="874" y="390" width="240" height="240" rx="8" fill="#1A1512" stroke="#4A3E34"/>
+    <g transform="translate(874,390)"><use xlink:href="#ridgeatt-fp"/></g>
+    <circle id="ridgeatt-e3" cx="994" cy="510" r="10" fill="url(#ridgeatt-glow)">
+      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="10;10;96;96;10;10" keyTimes="0;0.70;0.80;0.94;0.97;1"/>
+    </circle>
+    <text x="994" y="656" font-size="12" fill="#F6EDE1" text-anchor="middle">Epoch 60</text>
+    <text x="994" y="674" font-size="11" fill="#9C8B7A" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">corr 0.81, stable</text>
+
+    <path d="M408,510 L440,510" stroke="#4A3E34" stroke-width="2" fill="none"/>
+    <path d="M788,510 L820,510" stroke="#4A3E34" stroke-width="2" fill="none"/>
+  </g>
+
+  <g id="ridgeatt-legend" font-size="11" fill="#9C8B7A">
+    <circle cx="70" cy="700" r="6" fill="#F0A63C" opacity="0.6"/>
+    <text x="84" y="704">attention weight over the print</text>
+    <rect x="330" y="694" width="14" height="10" rx="2" fill="#2E2620" stroke="#4A3E34"/>
+    <text x="350" y="704">selected channel</text>
+  </g>
+<g id="ridgeatt-anim-cells">
+    <animate xlink:href="#ridgeatt-c00" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.090;0.098;1"/>
+    <animate xlink:href="#ridgeatt-c10" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.096;0.104;1"/>
+    <animate xlink:href="#ridgeatt-c20" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.102;0.110;1"/>
+    <animate xlink:href="#ridgeatt-c30" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.108;0.116;1"/>
+    <animate xlink:href="#ridgeatt-c01" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.116;0.124;1"/>
+    <animate xlink:href="#ridgeatt-c11" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.122;0.130;1"/>
+    <animate xlink:href="#ridgeatt-c21" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.128;0.136;1"/>
+    <animate xlink:href="#ridgeatt-c31" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.134;0.142;1"/>
+    <animate xlink:href="#ridgeatt-c02" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.142;0.150;1"/>
+    <animate xlink:href="#ridgeatt-c12" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.148;0.156;1"/>
+    <animate xlink:href="#ridgeatt-c22" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.154;0.162;1"/>
+    <animate xlink:href="#ridgeatt-c32" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.160;0.168;1"/>
+    <animate xlink:href="#ridgeatt-c03" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.168;0.176;1"/>
+    <animate xlink:href="#ridgeatt-c13" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.174;0.182;1"/>
+    <animate xlink:href="#ridgeatt-c23" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.180;0.188;1"/>
+    <animate xlink:href="#ridgeatt-c33" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.186;0.194;1"/>
+    <animate xlink:href="#ridgeatt-c04" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.194;0.202;1"/>
+    <animate xlink:href="#ridgeatt-c14" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.200;0.208;1"/>
+    <animate xlink:href="#ridgeatt-c24" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.206;0.214;1"/>
+    <animate xlink:href="#ridgeatt-c34" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.212;0.220;1"/>
+    <animate xlink:href="#ridgeatt-c05" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.220;0.228;1"/>
+    <animate xlink:href="#ridgeatt-c15" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.226;0.234;1"/>
+    <animate xlink:href="#ridgeatt-c25" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.232;0.240;1"/>
+    <animate xlink:href="#ridgeatt-c35" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.238;0.246;1"/>
+    <animate xlink:href="#ridgeatt-c06" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.246;0.254;1"/>
+    <animate xlink:href="#ridgeatt-c16" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.252;0.260;1"/>
+    <animate xlink:href="#ridgeatt-c26" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.258;0.266;1"/>
+    <animate xlink:href="#ridgeatt-c36" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.264;0.272;1"/>
+    <animate xlink:href="#ridgeatt-c07" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.272;0.280;1"/>
+    <animate xlink:href="#ridgeatt-c17" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.278;0.286;1"/>
+    <animate xlink:href="#ridgeatt-c27" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.284;0.292;1"/>
+    <animate xlink:href="#ridgeatt-c37" attributeName="fill" dur="12s" repeatCount="indefinite" values="#2E2620;#2E2620;#7A4A18;#7A4A18" keyTimes="0;0.290;0.298;1"/>
+  </g>
+
+  <g id="ridgeatt-anim-packets" filter="url(#ridgeatt-glowf)">
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M188,230 L226,168" keyPoints="0;1;1" keyTimes="0;0.10;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.01;0.04;0.08;0.11;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M188,230 L226,294" keyPoints="0;1;1" keyTimes="0;0.10;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.01;0.04;0.08;0.11;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M574,165 L600,200" keyPoints="0;1;1" keyTimes="0;0.38;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.31;0.335;0.375;0.405;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M574,295 L600,260" keyPoints="0;1;1" keyTimes="0;0.38;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.31;0.335;0.375;0.405;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M660,230 L696,230" keyPoints="0;1;1" keyTimes="0;0.44;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.39;0.415;0.455;0.485;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M408,510 L440,510" keyPoints="0;1;1" keyTimes="0;0.66;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.61;0.635;0.675;0.705;1"/>
+    </circle>
+    <circle r="5" fill="#FFCF7A">
+      <animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" path="M788,510 L820,510" keyPoints="0;1;1" keyTimes="0;0.80;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.75;0.775;0.815;0.845;1"/>
+    </circle>
+  </g>
+</svg>
